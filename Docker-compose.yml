@@ -7,23 +7,32 @@ services:
     db_test:
         image: postgres:13.3
         container_name: database_test
+        restart: always
         environment:
             POSTGRES_DB: "postgres_test"
             POSTGRES_USER: "postgres_test"
             POSTGRES_PASSWORD: "postgres_test"
-            DB_HOST: "localhost"
         ports:
             - "5433:5432"
 
     db:
         image: postgres:13.3
         container_name: database
+        restart: always
         environment:
             POSTGRES_DB: "postgres"
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
-            DB_HOST: "localhost"
         ports:
             - "5432:5432"
         volumes:
             - /var/lib/postgresql/data
+
+    backend:
+        container_name: backend
+        restart: always
+        depends_on:
+            - db
+        build: './backend'
+        ports:
+            - 80:8000

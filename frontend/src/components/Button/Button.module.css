@@ -1,0 +1,11 @@
+.Button {
+    background-color: azure;
+    width: fit-content;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-width: 1px;
+}
+
+.Button:hover {
+    cursor: pointer;
+}

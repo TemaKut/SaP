@@ -1,0 +1,19 @@
+.Form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#formButton {
+    margin-top: 30px;
+    align-self: center;
+}
+
+.WithMargin {
+    margin-top: 7px;
+}
+
+.data {
+    margin-left: 10px;
+}

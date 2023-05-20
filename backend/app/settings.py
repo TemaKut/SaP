@@ -13,8 +13,12 @@ SECRET_KEY: str = os.getenv('SECRET_KEY', 'SomeSuperSecretKey')
 DB_USER = os.getenv("DB_USER", "postgres")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres")
 DB_NAME = os.getenv("DB_NAME", "postgres")
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+DB_HOST = os.getenv("DB_HOST", "db")
+DB_PORT = os.getenv("DB_PORT", 5432)
+DB_URL = (
+    "postgresql+asyncpg://"
+    + f"{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
 
 # Подключение к БД (Для тестирования!)
 DB_USER_TEST = os.getenv("DB_USER_TEST", "postgres_test")

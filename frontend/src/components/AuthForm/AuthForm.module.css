@@ -1,0 +1,29 @@
+.AuthForm {
+    background-color: rgba(188, 188, 188, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40vw;
+    margin-top: 50px;
+    margin-left: calc(50vw - 20vw);
+}
+
+#chooseLoginOrRegister {
+    display: flex;
+    justify-content: space-around;
+}
+
+#buttonChoose {
+    border: none;
+    width: 150px;
+    height: 50px;
+    background-color: unset;
+}
+
+#buttonChoose:hover {
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
+
+#buttonChoose:focus {
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
