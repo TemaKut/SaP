@@ -4,7 +4,7 @@ import axios from "axios"
 // Объект клиента, через который следует делать запросы на backend
 const client = axios.create(
     {
-        baseURL: 'http://localhost/api',
+        baseURL: 'http://localhost:8000/api',
     }
 )
 

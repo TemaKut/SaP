@@ -11,9 +11,9 @@ export function ErrorFormMessage(props) {
             <hr className={styles.Hr_}/>
 
             <p>error = {`{`}</p>
-                <p className={styles.WithTab}>status_code: {status},</p>
-                <p className={styles.WithTab}>status_text: "{statusText}",</p>
-                <p className={styles.WithTab}>data: {JSON.stringify(data)},</p>
+                <p className={styles.WithTab}>"status_code": {status},</p>
+                <p className={styles.WithTab}>"status_text": "{statusText}",</p>
+                <p className={styles.WithTab}>"data": {JSON.stringify(data)},</p>
             <p>{`}`}</p>
         </div>
     )

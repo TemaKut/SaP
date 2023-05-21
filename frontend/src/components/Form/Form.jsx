@@ -13,7 +13,7 @@ export function Form(props) {
                 <p>{`data = {`}</p>
                 {
                     children.map(
-                        (ch, index) => <p key={index} className={styles.WithMargin}>&emsp;&emsp;&emsp;{ch.props.fieldname}: {ch},</p>
+                        (ch, index) => <p key={index} className={styles.WithMargin}>&emsp;&emsp;{ch.props.fieldname}: {ch},</p>
                     )
                 }
                 <p>{`}`}</p>

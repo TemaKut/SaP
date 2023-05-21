@@ -1,4 +1,4 @@
-import { userRegister } from "../../api/users"
+import { userRegister, userLogin } from "../../api/users"
 import styles from "./AuthForm.module.css"
 import {Form} from "../Form/Form"
 import { Input } from "../Input/Input"
@@ -28,10 +28,11 @@ export function AuthForm() {
         }
     )
 
-    // Изначально ошибки формы нет.
-    // В случае появления ошибки запроса на сервер -
-    // ответ сервера помещается в setFormError
-    const [formError, setFormError] = useState(false)
+    // Ошибки валидации формы регистрации
+    const [registerFormError, setRegisterFormError] = useState(false)
+
+    // Ошибки валидации формы логина
+    const [loginFormError, setLoginFormError] = useState(false)
 
     return (
         <div className={styles.AuthForm}>
@@ -48,33 +49,33 @@ export function AuthForm() {
             {
                 isRegister
                 ?
-                <Form buttonText="Register.." formError={formError} onClickButton={() => userRegister(registerData, setFormError)}>
+                <Form buttonText="Register.." formError={registerFormError} onClickButton={() => userRegister(registerData, setRegisterFormError)}>
                     <Input
-                        fieldname="username"
+                        fieldname='"username"'
                         value={registerData.username}
                         onChange={(event) => setRegisterData({...registerData, username:event.target.value})}
                     />
                     <Input
-                        fieldname="email"
+                        fieldname='"email"'
                         value={registerData.email}
                         onChange={(event) => setRegisterData({...registerData, email:event.target.value})}
                     />
                     <Input
-                        fieldname="password"
+                        fieldname='"password"'
                         value={registerData.password}
                         onChange={(event) => setRegisterData({...registerData, password:event.target.value})}
                         type="password"
                     />
                 </Form>
                 :
-                <Form buttonText="Login.." formError={formError} onClickButton={() => console.log("login")}>
+                <Form buttonText="Login.." formError={loginFormError} onClickButton={() => userLogin(loginData, setLoginFormError)}>
                     <Input
-                        fieldname="email"
+                        fieldname='"email"'
                         value={loginData.email}
                         onChange={(event) => setLoginData({...loginData, email:event.target.value})}
                     />
                     <Input
-                        fieldname="password"
+                        fieldname='"password"'
                         type="password"
                         value={loginData.password}
                         onChange={(event) => setLoginData({...loginData, password:event.target.value})}
