@@ -4,8 +4,7 @@ import { Button } from "../Button/Button"
 
 export function Form(props) {
     /* Форма для ввода данных с дочерними элементами*/
-    const {children} = props
-    console.log(children[0])
+    const {children, buttonText, onClickButton} = props
 
     return (
         <div className={styles.Form}>
@@ -13,14 +12,12 @@ export function Form(props) {
                 <p>{`data = {`}</p>
                 {
                     children.map(
-                        (children) => {
-                            return <p className={styles.WithMargin}>&emsp;&emsp;&emsp;{children.props.fieldName}: {children},</p>
-                        }
+                        (ch, index) => <p key={index} className={styles.WithMargin}>&emsp;&emsp;&emsp;{ch.props.fieldname}: {ch},</p>
                     )
                 }
                 <p>{`}`}</p>
             </div>
-            <Button id={styles.formButton} text="Send"/>
+            <Button id={styles.formButton} text={buttonText} onClickButton={onClickButton}/>
         </div>
     )
 }

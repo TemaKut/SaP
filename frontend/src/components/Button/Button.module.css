@@ -1,11 +1,18 @@
 .Button {
     background-color: azure;
     width: fit-content;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 7px 30px 7px 30px;
     border-width: 1px;
+    border-radius: 10px 0px;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 3px 3px teal;
 }
 
 .Button:hover {
     cursor: pointer;
+}
+
+.Button:active {
+    transform: scale(0.96);
 }

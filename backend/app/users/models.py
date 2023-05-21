@@ -1,3 +1,5 @@
+import string
+
 from fastapi import HTTPException, status
 import sqlalchemy as sa
 from sqlalchemy.sql import func
@@ -62,24 +64,62 @@ class User(Base):
     @validates('email')
     def email_validate(self, key, value: str):
         """ Валидация поля email. """
-        if not (('@' in value) and (len(value) > 5)):
-            log.error('Invalid email')
-            raise HTTPException(status.HTTP_400_BAD_REQUEST, 'Invalid email')
+        if len(value) < 7:
+            log.error('Invalid email by length')
+            raise HTTPException(
+                status.HTTP_400_BAD_REQUEST,
+                'Invalid email. Have to be longer then 6 characters',
+            )
+
+        if ('@' not in value) or ('.' not in value):
+            log.error('Invalid email by @.')
+            raise HTTPException(
+                status.HTTP_400_BAD_REQUEST,
+                'Invalid email. Email have to contains @ and .',
+            )
+
+        for ch in value:
+
+            if ch not in f'{string.ascii_letters}@.':
+                log.error('Invalid email by symbols')
+                raise HTTPException(
+                    status.HTTP_400_BAD_REQUEST,
+                    'Invalid email. Email contains another special characters',
+                )
 
         return value
 
     @validates('username')
     def username_validate(self, key, value: str):
-        """ Валидация поля email. """
-        if len(value) < 3:
-            log.error('Invalid username')
-            raise HTTPException(status.HTTP_400_BAD_REQUEST, 'Username < 3')
+        """ Валидация поля username. """
+        if len(value) < 5:
+            log.error('Invalid username by length')
+            raise HTTPException(
+                status.HTTP_400_BAD_REQUEST,
+                'Username have to be longer then 4 symbols',
+            )
+
+        for ch in value:
+
+            if ch not in string.ascii_letters:
+                log.error('Invalid username by symbols')
+                raise HTTPException(
+                    status.HTTP_400_BAD_REQUEST,
+                    'Username have to contains eng. characters only!',
+                )
 
         return value
 
     @validates('password')
     def password_validate(self, key, value: str):
         """ Хэширование пароля. """
+
+        if len(value) < 7:
+            log.error('Invalid password by length')
+            raise HTTPException(
+                status.HTTP_400_BAD_REQUEST,
+                'Password have to be longer then 6 symbols',
+            )
 
         return bcrypt.hash(value)
 

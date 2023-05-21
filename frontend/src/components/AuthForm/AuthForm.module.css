@@ -1,11 +1,12 @@
 .AuthForm {
-    background-color: rgba(188, 188, 188, 0.4);
+    background-color: rgba(227, 227, 227, 0.4);
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 40vw;
     margin-top: 50px;
     margin-left: calc(50vw - 20vw);
+    border: 1px dotted teal;
 }
 
 #chooseLoginOrRegister {
@@ -15,9 +16,12 @@
 
 #buttonChoose {
     border: none;
+    cursor: pointer;
     width: 150px;
     height: 50px;
     background-color: unset;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 #buttonChoose:hover {
