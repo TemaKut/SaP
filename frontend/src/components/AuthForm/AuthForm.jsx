@@ -28,6 +28,11 @@ export function AuthForm() {
         }
     )
 
+    // Изначально ошибки формы нет.
+    // В случае появления ошибки запроса на сервер -
+    // ответ сервера помещается в setFormError
+    const [formError, setFormError] = useState(false)
+
     return (
         <div className={styles.AuthForm}>
 
@@ -43,7 +48,7 @@ export function AuthForm() {
             {
                 isRegister
                 ?
-                <Form buttonText="Register.." onClickButton={() => userRegister(registerData)}>
+                <Form buttonText="Register.." formError={formError} onClickButton={() => userRegister(registerData, setFormError)}>
                     <Input
                         fieldname="username"
                         value={registerData.username}
@@ -62,7 +67,7 @@ export function AuthForm() {
                     />
                 </Form>
                 :
-                <Form buttonText="Login.." onClickButton={() => console.log("login")}>
+                <Form buttonText="Login.." formError={formError} onClickButton={() => console.log("login")}>
                     <Input
                         fieldname="email"
                         value={loginData.email}

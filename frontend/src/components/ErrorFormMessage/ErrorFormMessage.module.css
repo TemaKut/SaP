@@ -1,0 +1,14 @@
+.ErrorFormMessage_ {
+    color: red;
+    width: max-content;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.Hr_ {
+    margin-bottom: 5px;
+}
+
+.WithTab {
+    margin-left: 38px;
+}

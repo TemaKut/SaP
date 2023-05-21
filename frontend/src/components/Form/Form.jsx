@@ -1,10 +1,11 @@
 import styles from "./Form.module.css"
 import { Button } from "../Button/Button"
+import { ErrorFormMessage } from "../ErrorFormMessage/ErrorFormMessage"
 
 
 export function Form(props) {
     /* Форма для ввода данных с дочерними элементами*/
-    const {children, buttonText, onClickButton} = props
+    const {children, buttonText, onClickButton, formError} = props
 
     return (
         <div className={styles.Form}>
@@ -17,6 +18,11 @@ export function Form(props) {
                 }
                 <p>{`}`}</p>
             </div>
+            {
+                formError
+                ?<ErrorFormMessage response={formError}/>
+                : null
+            }
             <Button id={styles.formButton} text={buttonText} onClickButton={onClickButton}/>
         </div>
     )

@@ -7,6 +7,7 @@
     margin-top: 50px;
     margin-left: calc(50vw - 20vw);
     border: 1px dotted teal;
+    overflow: hidden;
 }
 
 #chooseLoginOrRegister {
