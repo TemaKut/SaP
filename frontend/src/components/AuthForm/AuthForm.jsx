@@ -2,11 +2,16 @@ import { userRegister, userLogin } from "../../api/users"
 import styles from "./AuthForm.module.css"
 import {Form} from "../Form/Form"
 import { Input } from "../Input/Input"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { appContext } from "../../App"
+import { useNavigate } from "react-router-dom"
 
 
 export function AuthForm() {
     /* Форма для регистрации / входа пользователей */
+
+    // Контекст приложения
+    const context = useContext(appContext)
 
     // Переключатель между формой регистрации и входа
     const [isRegister, setIsRegister] = useState(false)
@@ -34,6 +39,21 @@ export function AuthForm() {
     // Ошибки валидации формы логина
     const [loginFormError, setLoginFormError] = useState(false)
 
+    // Нажата ли кнопка входа или регистрации
+    const [isPressButton, setIsPressButton] = useState(false)
+
+    // Редирект пользователя на другую страницу после успешной авторизации или регистрации
+    const navigate = useNavigate()
+    useEffect(
+        () => {
+            if (context.isAuthenticated && isPressButton) {
+                navigate('/users/me')
+                setIsPressButton(false)
+            }
+        },
+        [context.isAuthenticated, navigate, isPressButton],
+    )
+
     return (
         <div className={styles.AuthForm}>
 
@@ -49,7 +69,11 @@ export function AuthForm() {
             {
                 isRegister
                 ?
-                <Form buttonText="Register.." formError={registerFormError} onClickButton={() => userRegister(registerData, setRegisterFormError)}>
+                <Form
+                    buttonText="Register.."
+                    formError={registerFormError}
+                    onClickButton={() => {setIsPressButton(true); userRegister(registerData, setRegisterFormError, context)}}
+                >
                     <Input
                         fieldname='"username"'
                         value={registerData.username}
@@ -68,7 +92,11 @@ export function AuthForm() {
                     />
                 </Form>
                 :
-                <Form buttonText="Login.." formError={loginFormError} onClickButton={() => userLogin(loginData, setLoginFormError)}>
+                <Form
+                    buttonText="Login.."
+                    formError={loginFormError}
+                    onClickButton={() => {setIsPressButton(true); userLogin(loginData, setLoginFormError, context)}}
+                >
                     <Input
                         fieldname='"email"'
                         value={loginData.email}

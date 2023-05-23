@@ -4,17 +4,18 @@ import "./index.css"
 import {LoginPage} from "./pages/LoginPage"
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { UsersMe } from "./pages/UsersMe";
-import { createContext} from "react";
+import { createContext, useState} from "react";
 
 
-export const appContext = createContext({isAuthenticated: false})
+export const appContext = createContext()
 
 
 function App() {
     /* Роутинг приложения */
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     return (
-        <appContext.Provider>
+        <appContext.Provider value={{isAuthenticated, setIsAuthenticated}}>
             <Routes>
                 <Route path="/auth" element={<LoginPage/>}/>
                 <Route path="/users/me" element={<UsersMe/>}/>
