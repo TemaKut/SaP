@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-function NotFoundPage() {
+export function NotFoundPage() {
     /* Страница Входа / Регистрации пользователей. */
 
     return (
@@ -10,6 +10,3 @@ function NotFoundPage() {
         </div>
     )
 }
-
-
-export {NotFoundPage}

@@ -11,7 +11,7 @@ const client = axios.create(
 // Добавить в клиент автодобавление токена в каждый запрос
 client.interceptors.request.use(
     (config) => {
-        // config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+        config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
 
         return config
     }

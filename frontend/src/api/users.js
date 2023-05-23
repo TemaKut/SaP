@@ -7,7 +7,7 @@ export async function userRegister(data, setError) {
         const response = await client.post('/v1/users/register', data)
         setError(false)
 
-        return response.data
+        localStorage.setItem('token', response.data.token)
 
     } catch (error) {
         setError(error.response)
@@ -19,9 +19,8 @@ export async function userLogin(data, setError) {
     try {
         const response = await client.post('/v1/users/get-token', data)
         setError(false)
-        console.log(response.data)
 
-        return response.data
+        localStorage.setItem('token', response.data.token)
 
     } catch (error) {
         setError(error.response)
