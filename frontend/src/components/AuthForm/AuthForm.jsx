@@ -1,10 +1,12 @@
-import { userRegister, userLogin } from "../../api/users"
-import styles from "./AuthForm.module.css"
+import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+
+import { appContext } from "../../App"
+import { urls } from "../../App"
 import {Form} from "../Form/Form"
 import { Input } from "../Input/Input"
-import { useContext, useEffect, useState } from "react"
-import { appContext } from "../../App"
-import { useNavigate } from "react-router-dom"
+import { userRegister, userLogin } from "../../api/users"
+import styles from "./AuthForm.module.css"
 
 
 export function AuthForm() {
@@ -47,7 +49,7 @@ export function AuthForm() {
     useEffect(
         () => {
             if (context.isAuthenticated && isPressButton) {
-                navigate('/users/me')
+                navigate(urls.usersMe)
                 setIsPressButton(false)
             }
         },

@@ -1,5 +1,5 @@
-import { BigSiteLogo } from "../components/BigSiteLogo/BigSiteLogo"
-import { AuthForm } from "../components/AuthForm/AuthForm"
+import { BigSiteLogo } from "../../components/BigSiteLogo/BigSiteLogo"
+import { AuthForm } from "../../components/AuthForm/AuthForm"
 
 
 export function LoginPage() {

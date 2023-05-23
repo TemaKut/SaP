@@ -1,0 +1,26 @@
+.UserPageBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-left: 80px;
+}
+
+.UserCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.UserCard>img {
+    width: 100px;
+}
+
+.UserCard>h2 {
+    margin-top: 10px;
+}
+
+.Hr_ {
+    width: 500px;
+    margin-top: 10px;
+}
