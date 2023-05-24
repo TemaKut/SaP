@@ -4,7 +4,7 @@ import "./index.css"
 import {LoginPage} from "./pages/LoginPage/LoginPage"
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { UsersMe } from "./pages/UsersMePage/UsersMePage";
-import { createContext, useState} from "react";
+import { createContext, useEffect, useState} from "react";
 
 
 export const appContext = createContext()
@@ -17,10 +17,13 @@ export const urls = {
 
 function App() {
     /* Роутинг приложения */
+    const [userData, setUserData] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     return (
-        <appContext.Provider value={{isAuthenticated, setIsAuthenticated}}>
+        <appContext.Provider value={
+            {isAuthenticated, setIsAuthenticated, userData, setUserData}
+        }>
             <Routes>
                 <Route path={urls.auth} element={<LoginPage/>}/>
                 <Route path={urls.usersMe} element={<UsersMe/>}/>

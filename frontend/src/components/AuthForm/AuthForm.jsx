@@ -5,13 +5,12 @@ import { appContext } from "../../App"
 import { urls } from "../../App"
 import {Form} from "../Form/Form"
 import { Input } from "../Input/Input"
-import { userRegister, userLogin } from "../../api/users"
+import { userRegister, userLogin, userMe } from "../../api/users"
 import styles from "./AuthForm.module.css"
 
 
 export function AuthForm() {
     /* Форма для регистрации / входа пользователей */
-
     // Контекст приложения
     const context = useContext(appContext)
 
@@ -41,20 +40,19 @@ export function AuthForm() {
     // Ошибки валидации формы логина
     const [loginFormError, setLoginFormError] = useState(false)
 
-    // Нажата ли кнопка входа или регистрации
-    const [isPressButton, setIsPressButton] = useState(false)
-
-    // Редирект пользователя на другую страницу после успешной авторизации или регистрации
+    // Редирект пользователя на другую страницу при нажатии на кнопку
     const navigate = useNavigate()
+    const [isButtonClicked, setIsButtonClicked] = useState(false)
     useEffect(
         () => {
-            if (context.isAuthenticated && isPressButton) {
+            if (isButtonClicked && context.isAuthenticated && context.userData) {
+                setIsButtonClicked(false)
                 navigate(urls.usersMe)
-                setIsPressButton(false)
             }
         },
-        [context.isAuthenticated, navigate, isPressButton],
+        [isButtonClicked, context, navigate]
     )
+
 
     return (
         <div className={styles.AuthForm}>
@@ -74,7 +72,13 @@ export function AuthForm() {
                 <Form
                     buttonText="Register.."
                     formError={registerFormError}
-                    onClickButton={() => {setIsPressButton(true); userRegister(registerData, setRegisterFormError, context)}}
+                    onClickButton={
+                        async () => {
+                            userRegister(registerData, setRegisterFormError, context)
+                            await userMe(context)
+                            setIsButtonClicked(true)
+                        }
+                    }
                 >
                     <Input
                         fieldname='"username"'
@@ -97,7 +101,13 @@ export function AuthForm() {
                 <Form
                     buttonText="Login.."
                     formError={loginFormError}
-                    onClickButton={() => {setIsPressButton(true); userLogin(loginData, setLoginFormError, context)}}
+                    onClickButton={
+                        async () => {
+                            await userLogin(loginData, setLoginFormError, context)
+                            await userMe(context)
+                            setIsButtonClicked(true)
+                        }
+                    }
                 >
                     <Input
                         fieldname='"email"'

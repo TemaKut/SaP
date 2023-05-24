@@ -13,25 +13,25 @@ from .utils import create_user, is_user_in_db
     [
         (
             {
-                "username": "Test_user",
+                "username": "TestUser",
                 "email": "test@yandex.ru",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_201_CREATED,
         ),
         (
             {
-                "username": "Test_user",
+                "username": "TestUser",
                 "email": "ar@r",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_400_BAD_REQUEST,
         ),
         (
             {
-                "username": "Test_user",
+                "username": "TestUser",
                 "email": "NOTEMAIL",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_400_BAD_REQUEST,
         ),
@@ -39,7 +39,7 @@ from .utils import create_user, is_user_in_db
             {
                 "username": "Ar",
                 "email": "test@yandex.ru",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_400_BAD_REQUEST,
         ),
@@ -64,9 +64,9 @@ async def test_create_user(
 async def test_get_token_after_registration(client):
     """ После регистрации пользователя - в ответе должен быть токен. """
     data = {
-        "username": "Test_user",
+        "username": "TestUser",
         "email": "test@yandex.ru",
-        "password": "string"
+        "password": "MySuperPassword"
     }
 
     uri = app.url_path_for('register')
@@ -86,14 +86,14 @@ async def test_get_token_after_registration(client):
         (
             {
                 "email": "temakutuzzzov@yandex.ru",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_200_OK,
         ),
         (
             {
                 "email": "uncorrectemail@yandex.ru",
-                "password": "string"
+                "password": "MySuperPassword"
             },
             status.HTTP_404_NOT_FOUND,
         ),
@@ -117,7 +117,7 @@ async def test_get_token_for_registred_user(
     data_register = {
         "username": "string",
         "email": "temakutuzzzov@yandex.ru",
-        "password": "string"
+        "password": "MySuperPassword"
     }
     user = await create_user(data_register)
     assert await is_user_in_db({'id': user.id})
@@ -135,9 +135,9 @@ async def test_get_all_users(client):
     # Создать в БД n пользователей
     for i in range(n_users):
         data_register = {
-            "username": f"test_user{i}",
+            "username": f"testuser{i}",
             "email": f"temakutuzzzov{i}@yandex.ru",
-            "password": "string"
+            "password": "MySuperSecretPassword"
         }
         user = await create_user(data_register)
         assert await is_user_in_db({'id': user.id})
@@ -157,15 +157,15 @@ async def test_get_user_by_username(client):
     # Создать в БД 3 пользователя
     for i in range(3):
         data_register = {
-            "username": f"test_user{i}",
+            "username": f"testuser{i}",
             "email": f"temakutuzzzov{i}@yandex.ru",
-            "password": "string"
+            "password": "MySuperSecretPassword"
         }
         user = await create_user(data_register)
         assert await is_user_in_db({'id': user.id})
 
     uri = app.url_path_for('get-all-users')
-    response = await client.get(uri + 'test_user1')
+    response = await client.get(uri + 'testuser1')
 
     assert response.status_code == status.HTTP_200_OK
 
@@ -182,18 +182,18 @@ async def test_get_info_about_me(client):
     """ Тестирование получения информации о пользователе сделавшем запрос """
     # Создать иного пользователя
     data_not_me = {
-        "username": "test_user_not_me",
-        "email": "test_user_not_me@yandex.ru",
-        "password": "string"
+        "username": "testusernotme",
+        "email": "testusernotme@yandex.ru",
+        "password": "MySuperSecretPassword"
     }
     user_not_me = await create_user(data_not_me)
     assert await is_user_in_db({'id': user_not_me.id})
 
     # Создать пользователя о котором будем получать информацию
     data_me = {
-        "username": "its_my_username",
-        "email": "its_my_email@yandex.ru",
-        "password": "string"
+        "username": "itsmyusername",
+        "email": "itsmyemail@yandex.ru",
+        "password": "MySuperSecretPassword"
     }
     user_me = await create_user(data_me)
     assert await is_user_in_db({'id': user_me.id})
@@ -220,4 +220,4 @@ async def test_get_info_about_me(client):
     assert response.status_code == status.HTTP_200_OK
 
     response_dict = json.loads(response.text)
-    assert response_dict.get('username') == 'its_my_username'
+    assert response_dict.get('username') == 'itsmyusername'

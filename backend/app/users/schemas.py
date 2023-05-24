@@ -15,6 +15,7 @@ class UserRepresentation(BaseModel):
     """ Представление пользователя. """
 
     id: int
+    logo: str
     username: str
     email: str
     registred_at: datetime

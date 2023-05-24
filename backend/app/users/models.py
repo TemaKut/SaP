@@ -1,4 +1,5 @@
 import string
+import os
 
 from fastapi import HTTPException, status
 import sqlalchemy as sa
@@ -8,6 +9,7 @@ from passlib.hash import bcrypt
 
 from app.database.base import Base
 from app.logs.logger import log
+from app.settings import STATIC_BASE_URI
 
 
 class User(Base):
@@ -19,6 +21,12 @@ class User(Base):
         sa.Integer,
         primary_key=True,
         comment='Id пользователя',
+    )
+    logo = sa.Column(
+        sa.String,
+        nullable=False,
+        default=os.path.join(STATIC_BASE_URI, 'users', 'DefaultUserLogo.png'),
+        comment="Uri на логотип пользователя"
     )
     username = sa.Column(
         sa.String(100),
@@ -80,7 +88,7 @@ class User(Base):
 
         for ch in value:
 
-            if ch not in f'{string.ascii_letters}@.':
+            if ch not in f'{string.ascii_letters}@.1234567890':
                 log.error('Invalid email by symbols')
                 raise HTTPException(
                     status.HTTP_400_BAD_REQUEST,
@@ -101,7 +109,7 @@ class User(Base):
 
         for ch in value:
 
-            if ch not in string.ascii_letters:
+            if ch not in f"{string.ascii_letters}1234567890":
                 log.error('Invalid username by symbols')
                 raise HTTPException(
                     status.HTTP_400_BAD_REQUEST,

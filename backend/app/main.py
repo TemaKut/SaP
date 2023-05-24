@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.api import api_router
+from app.settings import STATIC_BASE_DIR, STATIC_BASE_URI
 
 
 app = FastAPI(
@@ -9,9 +11,6 @@ app = FastAPI(
     title='Backend "SaP"',
     description='Бэкенд сайта "Share a Project"',
 )
-
-# Подключение роутов
-app.include_router(api_router, prefix='/api/v1')
 
 # Настройка CORS
 app.add_middleware(
@@ -21,3 +20,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Подключение статики
+app.mount(
+    STATIC_BASE_URI,
+    StaticFiles(directory=STATIC_BASE_DIR),
+    name="static",
+)
+
+# Подключение роутов
+app.include_router(api_router, prefix='/api/v1')

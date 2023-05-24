@@ -1,10 +1,11 @@
 import axios from "axios"
+import { BACKEND_BASE_URL } from "../settings"
 
 
 // Объект клиента, через который следует делать запросы на backend
 const client = axios.create(
     {
-        baseURL: 'http://localhost:8000/api',
+        baseURL: BACKEND_BASE_URL,
     }
 )
 
@@ -16,6 +17,7 @@ client.interceptors.request.use(
         return config
     }
 )
+
 
 
 export {client}

@@ -5,6 +5,10 @@ from pathlib import Path
 # Корневая директория
 BASE_DIR = Path(__file__).resolve().parent
 
+# Настройка статики
+STATIC_BASE_DIR = os.path.join(BASE_DIR, 'static')
+STATIC_BASE_URI = '/static'
+
 # TODO: Вынести все константы в .ENV
 # Секретный ключ приложения
 SECRET_KEY: str = os.getenv('SECRET_KEY', 'SomeSuperSecretKey')

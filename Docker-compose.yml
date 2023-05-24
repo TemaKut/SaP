@@ -32,6 +32,7 @@ services:
         container_name: backend
         restart: always
         depends_on:
+            - db_test
             - db
         build: './backend'
         ports:
