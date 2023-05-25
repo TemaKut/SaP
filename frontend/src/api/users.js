@@ -2,53 +2,53 @@ import {client} from "./axiosConfig.js"
 import { BACKEND_BASE_URL } from "../settings.js"
 
 
-export async function userRegister(data, setError, context) {
+export async function userRegister(data, setError) {
     /* Регистрация пользоваеля */
     try {
         const response = await client.post('api/v1/users/register', data)
         setError(false)
-        context.setIsAuthenticated(true)
 
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('isLoggedIn', true)
 
     } catch (error) {
-        console.log(error)
+        localStorage.removeItem('token')
+        localStorage.removeItem('isLoggedIn')
         setError(error.response)
-        context.setUserData(null)
-        context.setIsAuthenticated(false)
     }
 }
 
-export async function userLogin(data, setError, context) {
+export async function userLogin(data, setError) {
     /* Вход пользоваеля */
     try {
         const response = await client.post('api/v1/users/get-token', data)
         setError(false)
-        context.setIsAuthenticated(true)
 
         localStorage.setItem('token', response.data.token)
+        localStorage.setItem('isLoggedIn', true)
 
     } catch (error) {
-        console.log(error)
+        localStorage.removeItem('token')
+        localStorage.removeItem('isLoggedIn')
         setError(error.response)
-        context.setUserData(null)
-        context.setIsAuthenticated(false)
     }
 }
 
-export async function userMe(context) {
+export async function userMe() {
     /* Получить информацию о пользователе, сделавшем запрос */
     try {
         const response = await client.get('api/v1/users/me')
+
         // Заменить uri фотографии на url
         response.data.logo = `${BACKEND_BASE_URL}${response.data.logo}`
 
-        context.setIsAuthenticated(true)
-        context.setUserData(response.data)
+        localStorage.setItem('isLoggedIn', true)
+
+        return response.data
 
     } catch (error) {
-        console.log(error)
-        context.setUserData(null)
-        context.setIsAuthenticated(false)
+        localStorage.removeItem('isLoggedIn')
+
+        return {}
     }
 }

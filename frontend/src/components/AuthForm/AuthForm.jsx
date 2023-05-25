@@ -1,19 +1,15 @@
-import { useContext, useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { appContext } from "../../App"
 import { urls } from "../../App"
 import {Form} from "../Form/Form"
 import { Input } from "../Input/Input"
-import { userRegister, userLogin, userMe } from "../../api/users"
+import { userRegister, userLogin} from "../../api/users"
 import styles from "./AuthForm.module.css"
 
 
 export function AuthForm() {
     /* Форма для регистрации / входа пользователей */
-    // Контекст приложения
-    const context = useContext(appContext)
-
     // Переключатель между формой регистрации и входа
     const [isRegister, setIsRegister] = useState(false)
 
@@ -40,19 +36,7 @@ export function AuthForm() {
     // Ошибки валидации формы логина
     const [loginFormError, setLoginFormError] = useState(false)
 
-    // Редирект пользователя на другую страницу при нажатии на кнопку
     const navigate = useNavigate()
-    const [isButtonClicked, setIsButtonClicked] = useState(false)
-    useEffect(
-        () => {
-            if (isButtonClicked && context.isAuthenticated && context.userData) {
-                setIsButtonClicked(false)
-                navigate(urls.usersMe)
-            }
-        },
-        [isButtonClicked, context, navigate]
-    )
-
 
     return (
         <div className={styles.AuthForm}>
@@ -74,26 +58,27 @@ export function AuthForm() {
                     formError={registerFormError}
                     onClickButton={
                         async () => {
-                            userRegister(registerData, setRegisterFormError, context)
-                            await userMe(context)
-                            setIsButtonClicked(true)
+                            await userRegister(registerData, setRegisterFormError)
+                            if (localStorage.getItem('token') && localStorage.getItem('isLoggedIn')) {
+                                navigate(urls.usersMe)
+                            }
                         }
                     }
                 >
                     <Input
                         fieldname='"username"'
                         value={registerData.username}
-                        onChange={(event) => setRegisterData({...registerData, username:event.target.value})}
+                        onChange={(event) => setRegisterData({...registerData, username: event.target.value})}
                     />
                     <Input
                         fieldname='"email"'
                         value={registerData.email}
-                        onChange={(event) => setRegisterData({...registerData, email:event.target.value})}
+                        onChange={(event) => setRegisterData({...registerData, email: event.target.value})}
                     />
                     <Input
                         fieldname='"password"'
                         value={registerData.password}
-                        onChange={(event) => setRegisterData({...registerData, password:event.target.value})}
+                        onChange={(event) => setRegisterData({...registerData, password: event.target.value})}
                         type="password"
                     />
                 </Form>
@@ -103,22 +88,23 @@ export function AuthForm() {
                     formError={loginFormError}
                     onClickButton={
                         async () => {
-                            await userLogin(loginData, setLoginFormError, context)
-                            await userMe(context)
-                            setIsButtonClicked(true)
+                            await userLogin(loginData, setLoginFormError)
+                            if (localStorage.getItem('token') && localStorage.getItem('isLoggedIn')) {
+                                navigate(urls.usersMe)
+                            }
                         }
                     }
                 >
                     <Input
                         fieldname='"email"'
                         value={loginData.email}
-                        onChange={(event) => setLoginData({...loginData, email:event.target.value})}
+                        onChange={(event) => setLoginData({...loginData, email: event.target.value})}
                     />
                     <Input
                         fieldname='"password"'
                         type="password"
                         value={loginData.password}
-                        onChange={(event) => setLoginData({...loginData, password:event.target.value})}
+                        onChange={(event) => setLoginData({...loginData, password: event.target.value})}
                     />
                 </Form>
             }
