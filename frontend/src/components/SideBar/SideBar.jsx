@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import styles from "./SideBar.module.css"
 import { urls } from "../../App"
 import { useCurrentUser } from "../../hooks/UseCurrentUser"
+import { Button } from "../Button/Button"
 
 export function SideBar() {
     /* Боковая навигация */
@@ -31,7 +32,7 @@ export function SideBar() {
                         }
                     }
                 >
-                    Exit
+                    <Button text="Logout">Exit</Button>
                 </Link>
             </div>
         </div>

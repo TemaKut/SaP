@@ -1,0 +1,20 @@
+.list {
+    margin-left: 80px;
+    margin-top: 10px;
+    width: 40vw;
+}
+
+.SpasesBefore {
+    margin-top: 4px;
+    margin-left: 30px;
+}
+
+.MoreSpasesBefore {
+    margin-top: 4px;
+    margin-left: 60px;
+}
+
+.user_logo {
+    float: right;
+    width: 50px;
+}

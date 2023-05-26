@@ -2,10 +2,13 @@
     position: fixed;
     display: flex;
     flex-direction: column;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
     align-items: center;
     width: 200px;
     height: 100vh;
-    background-color: rgba(227, 227, 227, 0.4);
+    background-color: rgba(227, 227, 227, 0.9);
     padding: 10px;
     transition: 0.7s;
     transform: translateX(-70%);

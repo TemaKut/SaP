@@ -1,5 +1,7 @@
 import {SideBar} from "../../components/SideBar/SideBar"
+import { ListUsers } from "../../components/ListUsers/ListUsers"
 import { useAllUsers } from "../../hooks/UseAllUsers"
+import { Search } from "../../components/Search/Search"
 
 
 export function ListOfUsersPage() {
@@ -10,7 +12,8 @@ export function ListOfUsersPage() {
     return (
         <div>
             <SideBar/>
-            <p>{`{`}</p>
+            <Search/>
+            <ListUsers users={users}/>
         </div>
     )
 }

@@ -6,6 +6,7 @@ import {LoginPage} from "./pages/LoginPage/LoginPage"
 import { NotFoundPage } from "./pages/NotFoundPage/NotFoundPage";
 import { UsersMe } from "./pages/UsersMePage/UsersMePage";
 import { ListOfUsersPage } from "./pages/ListOfUsersPage/ListOfUsersPage";
+import { ProtectedPage } from "./pages/ProtectedPage";
 
 
 
@@ -25,8 +26,18 @@ function App() {
         <appContext.Provider value={{}}>
             <Routes>
                 <Route path={urls.auth} element={<LoginPage/>}/>
-                <Route path={urls.usersMe} element={<UsersMe/>}/>
-                <Route path={urls.usersList} element={<ListOfUsersPage/>} />
+                <Route
+                    path={urls.usersMe}
+                    element={
+                        <ProtectedPage><UsersMe/></ProtectedPage>
+                    }
+                />
+                <Route
+                    path={urls.usersList}
+                    element={
+                        <ProtectedPage><ListOfUsersPage/></ProtectedPage>
+                    }
+                />
                 <Route path="*" element={<NotFoundPage/>}/>
             </Routes>
         </appContext.Provider>
