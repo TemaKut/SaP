@@ -16,7 +16,6 @@ export function UsersMe() {
                     <img src={user.logo} alt="Userlogo"/>
                     <h2>{user.username}</h2>
                 </div>
-                <hr className={styles.Hr_}/>
             </div>
         </div>
     )

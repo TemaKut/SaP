@@ -52,3 +52,27 @@ export async function userMe() {
         return {}
     }
 }
+
+export async function allUsers() {
+    /* Получить список всех пользователей */
+    try {
+        const response = await client.get('api/v1/users/')
+        let data = response.data
+
+        // Заменить uri фотографии на url
+        data = data.map(
+            (user) => {
+                user.logo = `${BACKEND_BASE_URL}${user.logo}`
+
+                return user
+            }
+        )
+
+        return data
+
+    } catch (error) {
+        localStorage.removeItem('isLoggedIn')
+
+        return []
+    }
+}
