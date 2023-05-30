@@ -3,11 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.api import api_router
-from app.settings import STATIC_BASE_DIR, STATIC_BASE_URI
+from app.settings import STATIC_BASE_DIR, STATIC_BASE_URI, DEBUG
 
 
 app = FastAPI(
-    debug=True,
+    debug=DEBUG,
     title='Backend "SaP"',
     description='Бэкенд сайта "Share a Project"',
 )

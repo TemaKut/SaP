@@ -72,6 +72,7 @@ class User(Base):
     @validates('email')
     def email_validate(self, key, value: str):
         """ Валидация поля email. """
+
         if len(value) < 7:
             log.error('Invalid email by length')
             raise HTTPException(
@@ -100,6 +101,7 @@ class User(Base):
     @validates('username')
     def username_validate(self, key, value: str):
         """ Валидация поля username. """
+
         if len(value) < 5:
             log.error('Invalid username by length')
             raise HTTPException(

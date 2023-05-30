@@ -11,6 +11,15 @@ class UserCreate(BaseModel):
     password: str
 
 
+class UserPatch(BaseModel):
+    """ Поля для обновления информации о пользователе. """
+
+    # logo: str = None
+    username: str = None
+    email: str = None
+    password: str = None
+
+
 class UserRepresentation(BaseModel):
     """ Представление пользователя. """
 

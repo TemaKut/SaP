@@ -1,7 +1,7 @@
 from fastapi import Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select
+from sqlalchemy import select, update, and_, inspect
 
 from app.logs.logger import log
 from app.database.base import get_async_session
@@ -9,6 +9,7 @@ from .models import User
 from .auth import create_token
 from .schemas import (
     UserCreate,
+    UserPatch,
     UserRepresentation,
     TokenCreate,
     TokenRepresentation,
@@ -67,9 +68,20 @@ class UsersCRUD():
 
         return user
 
-    async def change_user_data(self, data) -> UserRepresentation:
+    async def change_user_data(
+        self, user: User, data: UserPatch
+    ) -> UserRepresentation:
         """ Изменить одно или несколько полей у пользователя в БД """
-        pass
+
+        for key, value in data.dict().items():
+
+            if value:
+                setattr(user, key, value)
+
+        await self.session.commit()
+        await self.session.refresh(user)
+
+        return user
 
     async def _get_user_by_params(self, params: dict) -> User:
         """ Получить пользователя из БД по параметрам. """

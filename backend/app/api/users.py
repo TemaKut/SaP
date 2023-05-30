@@ -5,6 +5,7 @@ from app.users.crud import UsersCRUD
 from app.users.models import User
 from app.users.schemas import (
     UserCreate,
+    UserPatch,
     UserRepresentation,
     TokenCreate,
     TokenRepresentation,
@@ -62,10 +63,13 @@ async def get_token(
 )
 async def get_all_users(
     crud: UsersCRUD = Depends(),
+    offset: int = 0,
+    limit: int = 10,
 ):
     """ Получить список всех пользователей. """
+    all_users = await crud.get_all_users()
 
-    return await crud.get_all_users()
+    return all_users[offset:limit]
 
 
 @users_router.get(
@@ -82,6 +86,17 @@ async def get_info_about_me(user: User = Depends(get_current_user)):
     """ Получить информацию о пользователе сделавшем запрос. """
 
     return user
+
+
+@users_router.patch('/me', response_model=UserRepresentation)
+async def change_my_info(
+    user: User = Depends(get_current_user),
+    data: UserPatch = Body(),
+    crud: UsersCRUD = Depends(),
+):
+    """ Частично изменить информацию о себе """
+
+    return await crud.change_user_data(user, data)
 
 
 @users_router.get(
