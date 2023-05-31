@@ -16,8 +16,12 @@ DIR = os.path.abspath(Path(__file__).resolve().parent.parent.parent.parent)
 sys.path.insert(0, DIR)
 
 from app.logs.logger import log
-from app.users.models import Base
 from app.settings import DB_URL
+
+# Импорт всех моделей ______________________
+from app.users.models import Base
+from app.projects.models import Base as _
+# __________________________________________
 
 log.debug('Generating migrations..')
 config = context.config

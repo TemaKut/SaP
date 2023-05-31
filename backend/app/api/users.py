@@ -88,7 +88,14 @@ async def get_info_about_me(user: User = Depends(get_current_user)):
     return user
 
 
-@users_router.patch('/me', response_model=UserRepresentation)
+@users_router.patch(
+    '/me',
+    name='change-info-about-me',
+    response_model=UserRepresentation,
+    responses={
+        400: {'description': 'Not valid data'},
+    }
+)
 async def change_my_info(
     user: User = Depends(get_current_user),
     data: UserPatch = Body(),

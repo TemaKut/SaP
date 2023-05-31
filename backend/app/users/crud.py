@@ -1,7 +1,7 @@
 from fastapi import Depends, status, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select, update, and_, inspect
+from sqlalchemy import select
 
 from app.logs.logger import log
 from app.database.base import get_async_session

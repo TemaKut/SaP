@@ -5,7 +5,7 @@ from httpx import AsyncClient
 from fastapi import status
 
 from app.main import app
-from .utils import create_user, is_user_in_db
+from .utils import create_user, is_user_in_db, get_token
 
 
 @pytest.mark.parametrize(
@@ -199,15 +199,7 @@ async def test_get_info_about_me(client):
     assert await is_user_in_db({'id': user_me.id})
 
     # Получить токен нужного пользователя через эндпоинт
-    uri = app.url_path_for('get-token')
-    response = await client.post(uri, json=data_me)
-    assert response.status_code == status.HTTP_200_OK
-
-    response_dict = json.loads(response.text)
-    token = response_dict.get('token')
-    token_type = response_dict.get('token_type')
-
-    assert all([token, token_type])
+    token, token_type = await get_token(client, data_me)
 
     # Запрос на эндпоинт получения информации о себе без токена
     uri = app.url_path_for('get-info-about-me')
@@ -221,3 +213,45 @@ async def test_get_info_about_me(client):
 
     response_dict = json.loads(response.text)
     assert response_dict.get('username') == 'itsmyusername'
+
+
+async def test_change_info_about_me(client):
+    """ Смена информации о пользователе. """
+    # Создать пользователя
+    data_me = {
+        "username": "itsmyusername",
+        "email": "itsmyemail@yandex.ru",
+        "password": "MySuperSecretPassword"
+    }
+
+    user_me = await create_user(data_me)
+    assert await is_user_in_db({'id': user_me.id})
+
+    # Получить токен нужного пользователя через эндпоинт
+    token, token_type = await get_token(client, data_me)
+
+    # Запрос на эндпоинт получения информации о себе с токеном
+    auth_header = {'Authorization': f'{token_type} {token}'}
+    uri = app.url_path_for('get-info-about-me')
+
+    response = await client.get(uri, headers=auth_header)
+    assert response.status_code == status.HTTP_200_OK
+
+    response_dict = json.loads(response.text)
+
+    username_before = response_dict.get('username')
+    assert username_before
+
+    # Смена пользовательских данных через эндпоинт
+    uri_change = uri = app.url_path_for('change-info-about-me')
+    auth_header = {'Authorization': f'{token_type} {token}'}
+    changed_username = 'ChangedUsername'
+
+    response = await client.patch(
+        uri_change, headers=auth_header, json={'username': changed_username}
+    )
+
+    new_username = (json.loads(response.text)).get('username')
+
+    assert new_username
+    assert new_username != username_before
